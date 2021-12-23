@@ -5,16 +5,17 @@ import (
 	"runtime/pprof"
 )
 
-func StartCPUProfile(filename string) {
+func StartCPUProfile(filename string) *os.File {
 	fp, err := os.Create(filename)
 	if err != nil {
 		panic(err)
 	}
-	defer fp.Close()
 
 	pprof.StartCPUProfile(fp)
+	return fp
 }
 
-func StopCPUProfile() {
+func StopCPUProfile(fp *os.File) {
+	defer fp.Close()
 	pprof.StopCPUProfile()
 }
